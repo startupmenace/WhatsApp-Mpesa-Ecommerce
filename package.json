@@ -1,0 +1,22 @@
+{
+  "name": "whatsapp-mpesa-store",
+  "version": "1.0.0",
+  "description": "WhatsApp storefront with visual product catalogue and M-Pesa STK Push checkout, powered by Twilio + Safaricom Daraja",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.17.3",
+    "multer": "^2.0.2",
+    "twilio": "^5.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

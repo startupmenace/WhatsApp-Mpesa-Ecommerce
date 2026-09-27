@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fortune Dev Store Admin</title>
+    <style>
+      :root {
+        --bg: #0f172a;
+        --panel: #111827;
+        --panel-alt: #1f2937;
+        --text: #e5e7eb;
+        --muted: #94a3b8;
+        --primary: #22c55e;
+        --primary-2: #16a34a;
+        --danger: #ef4444;
+        --border: rgba(148, 163, 184, 0.2);
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 24px;
+      }
+
+      h1, h2, h3 { margin-top: 0; }
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 20px;
+      }
+
+      .chart-box {
+        background: var(--panel-alt);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px;
+        min-height: 180px;
+        display: flex;
+        align-items: flex-end;
+        gap: 8px;
+      }
+
+      .bar {
+        flex: 1;
+        background: linear-gradient(180deg, #34d399, #22c55e);
+        border-radius: 10px 10px 0 0;
+        position: relative;
+        min-height: 18px;
+        box-shadow: inset 0 0 18px rgba(255,255,255,0.08);
+      }
+
+      .bar-label {
+        position: absolute;
+        transform: translate(-50%, 0);
+        left: 50%;
+        bottom: -20px;
+        color: var(--muted);
+        font-size: 10px;
+        white-space: nowrap;
+      }
+
+      .product-thumb {
+        width: 54px;
+        height: 54px;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+
+      .stat {
+        background: var(--panel-alt);
+        border-radius: 12px;
+        padding: 18px;
+      }
+
+      .stat-label {
+        color: var(--muted);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .stat-value {
+        font-size: 28px;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+
+      form {
+        display: grid;
+        gap: 12px;
+      }
+
+      input, textarea, button {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: #0b1220;
+        color: var(--text);
+      }
+
+      textarea {
+        min-height: 80px;
+        resize: vertical;
+      }
+
+      button {
+        background: var(--primary);
+        color: #06230c;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+      }
+
+      button.secondary {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th, td {
+        text-align: left;
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+      }
+
+      th {
+        color: var(--muted);
+        font-size: 12px;
+        text-transform: uppercase;
+      }
+
+      .pill {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(34, 197, 94, 0.14);
+        color: #bbf7d0;
+        font-size: 12px;
+        font-weight: bold;
+      }
+
+      .danger {
+        background: rgba(239, 68, 68, 0.14);
+        color: #fecaca;
+      }
+
+      .row-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .row-actions button {
+        width: auto;
+        padding: 8px 10px;
+      }
+
+      .form-message {
+        display: none;
+        margin-top: 8px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        font-size: 14px;
+      }
+
+      .form-message.error {
+        display: block;
+        background: rgba(239, 68, 68, 0.12);
+        border: 1px solid rgba(239, 68, 68, 0.4);
+        color: #fecaca;
+      }
+
+      .form-message.success {
+        display: block;
+        background: rgba(34, 197, 94, 0.12);
+        border: 1px solid rgba(34, 197, 94, 0.4);
+        color: #bbf7d0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="topbar">
+        <div>
+          <h1>Fortune Dev Store Admin</h1>
+        </div>
+      </div>
+
+      <div id="loginOverlay" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,23,0.7);z-index:9999;">
+        <div style="width:360px;background:var(--panel);border:1px solid var(--border);padding:20px;border-radius:12px;">
+          <h2 style="margin-top:0;">Admin Sign In</h2>
+          <div style="display:grid;gap:8px;">
+            <input id="loginUser" placeholder="Username" />
+            <input id="loginPass" placeholder="Password" type="password" />
+            <div style="display:flex;gap:8px;">
+              <button id="loginBtn">Sign in</button>
+              <button id="demoCredsBtn" class="secondary">Use demo creds</button>
+            </div>
+            <div id="loginMsg" class="form-message error" style="display:none"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-label">Products</div>
+          <div class="stat-value" id="productsCount">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Sales</div>
+          <div class="stat-value" id="salesCount">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Transactions</div>
+          <div class="stat-value" id="transactionsCount">0</div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <section class="card">
+          <h2>Add / Edit Product</h2>
+          <form id="productForm" enctype="multipart/form-data">
+            <input type="hidden" id="productId" />
+            <input id="productName" placeholder="Product name" required />
+            <textarea id="productDescription" placeholder="Description"></textarea>
+            <input id="productPrice" type="number" min="1" placeholder="Price" required />
+            <input id="productImageUrl" placeholder="Image URL (optional)" />
+            <input id="productImageFile" type="file" accept="image/*" />
+            <button type="submit">Save Product</button>
+            <button type="button" class="secondary" id="resetProductBtn">Reset</button>
+            <div id="formMessage" class="form-message" aria-live="polite"></div>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Sales Chart</h2>
+          <div id="salesChart" class="chart-box" aria-label="Sales chart"></div>
+        </section>
+      </div>
+
+      <div class="grid" style="margin-top: 20px;">
+        <section class="card">
+          <h2>Recent Sales</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Product</th>
+                <th>Amount</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody"></tbody>
+          </table>
+        </section>
+      </div>
+
+      <section class="card" style="margin-top: 24px;">
+        <h2>Products</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Description</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="productsTableBody"></tbody>
+        </table>
+      </section>
+
+      <section class="card" style="margin-top: 24px;">
+        <h2>Transactions</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Receipt</th>
+              <th>Result</th>
+              <th>Amount</th>
+              <th>Phone</th>
+            </tr>
+          </thead>
+          <tbody id="transactionsTableBody"></tbody>
+        </table>
+      </section>
+    </div>
+
+    <script>
+      const productForm = document.getElementById('productForm');
+      const productsTableBody = document.getElementById('productsTableBody');
+      const ordersTableBody = document.getElementById('ordersTableBody');
+      const transactionsTableBody = document.getElementById('transactionsTableBody');
+      const productsCountEl = document.getElementById('productsCount');
+      const salesCountEl = document.getElementById('salesCount');
+      const transactionsCountEl = document.getElementById('transactionsCount');
+      const formMessage = document.getElementById('formMessage');
+
+      function showFormMessage(type, text) {
+        formMessage.className = `form-message ${type}`;
+        formMessage.textContent = text;
+      }
+
+      async function fetchJson(url, options = {}) {
+        const opts = { credentials: 'include', ...options };
+        // If body is FormData, let fetch set headers automatically
+        if (!(opts.body instanceof FormData)) {
+          opts.headers = { 'Content-Type': 'application/json', ...(opts.headers || {}) };
+          if (opts.body && typeof opts.body !== 'string') {
+            opts.body = JSON.stringify(opts.body);
+          }
+        }
+        const response = await fetch(url, opts);
+        return response.json();
+      }
+
+      async function checkAuth() {
+        try {
+          const me = await fetchJson('/admin/me');
+          return !!me.authenticated;
+        } catch (err) {
+          return false;
+        }
+      }
+
+      function showLogin(show) {
+        document.getElementById('loginOverlay').style.display = show ? 'flex' : 'none';
+      }
+
+      document.getElementById('demoCredsBtn').addEventListener('click', () => {
+        document.getElementById('loginUser').value = 'admin';
+        document.getElementById('loginPass').value = 'password';
+      });
+
+      document.getElementById('loginBtn').addEventListener('click', async () => {
+        const user = document.getElementById('loginUser').value;
+        const pass = document.getElementById('loginPass').value;
+        const loginMsg = document.getElementById('loginMsg');
+        try {
+          const res = await fetchJson('/admin/login', { method: 'POST', body: { username: user, password: pass } });
+          if (res.ok) {
+            loginMsg.style.display = 'none';
+            showLogin(false);
+            loadDashboard();
+            return;
+          }
+        } catch (err) {
+          // fallthrough
+        }
+        loginMsg.textContent = 'Invalid credentials';
+        loginMsg.style.display = 'block';
+      });
+
+      // On load, check auth and show login overlay if needed
+      (async () => {
+        const authed = await checkAuth();
+        showLogin(!authed);
+        if (authed) loadDashboard();
+      })();
+
+      function renderProducts(products) {
+        productsTableBody.innerHTML = products.map((product) => `
+          <tr>
+            <td>${product.id}</td>
+            <td>
+              <div style="display:flex; align-items:center; gap:10px; min-width:180px;">
+                <img class="product-thumb" src="${product.imageUrl || 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80'}" alt="${product.name}" />
+                <span>${product.name}</span>
+              </div>
+            </td>
+            <td>KES ${Number(product.price).toLocaleString()}</td>
+            <td>${product.description || '-'}</td>
+            <td class="row-actions">
+              <button type="button" data-edit="${product.id}">Edit</button>
+              <button type="button" class="secondary" data-delete="${product.id}">Delete</button>
+            </td>
+          </tr>
+        `).join('');
+
+        document.querySelectorAll('[data-edit]').forEach((button) => {
+          button.addEventListener('click', () => {
+            const product = products.find((item) => item.id === Number(button.dataset.edit));
+            if (!product) return;
+            document.getElementById('productId').value = product.id;
+            document.getElementById('productName').value = product.name;
+            document.getElementById('productDescription').value = product.description || '';
+            document.getElementById('productPrice').value = product.price;
+            document.getElementById('productImageUrl').value = product.imageUrl || '';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          });
+        });
+
+        document.querySelectorAll('[data-delete]').forEach((button) => {
+          button.addEventListener('click', async () => {
+            await fetch(`/api/products/${button.dataset.delete}`, { method: 'DELETE' });
+            loadDashboard();
+          });
+        });
+      }
+
+      function renderOrders(orders) {
+        ordersTableBody.innerHTML = orders.slice(0, 6).map((order) => `
+          <tr>
+            <td>${order.customerPhone || '-'}</td>
+            <td>${order.productName || '-'}</td>
+            <td>KES ${Number(order.amount || 0).toLocaleString()}</td>
+            <td><span class="pill ${order.status === 'paid' ? '' : 'danger'}">${order.status || 'pending'}</span></td>
+          </tr>
+        `).join('');
+      }
+
+      function renderTransactions(transactions) {
+        transactionsTableBody.innerHTML = transactions.slice(0, 8).map((tx) => `
+          <tr>
+            <td>${tx.mpesaReceiptNumber || tx.receipt || '-'}</td>
+            <td>${tx.resultDesc || '-'}</td>
+            <td>${tx.amount ? `KES ${Number(tx.amount).toLocaleString()}` : '-'}</td>
+            <td>${tx.customerPhone || '-'}</td>
+          </tr>
+        `).join('');
+      }
+
+      async function loadDashboard() {
+        const [products, orders, transactions] = await Promise.all([
+          fetchJson('/api/products'),
+          fetchJson('/api/orders'),
+          fetchJson('/api/transactions')
+        ]);
+
+        renderProducts(products);
+        renderOrders(orders);
+        renderTransactions(transactions);
+        renderSalesChart(orders);
+
+        productsCountEl.textContent = products.length;
+        salesCountEl.textContent = orders.length;
+        transactionsCountEl.textContent = transactions.length;
+      }
+
+      function renderSalesChart(orders) {
+        const salesChart = document.getElementById('salesChart');
+        const values = [0, 0, 0, 0, 0, 0, 0];
+        const today = new Date();
+
+        orders.forEach((order) => {
+          if (!order.createdAt) return;
+          const date = new Date(order.createdAt);
+          const diff = Math.round((today - date) / 86400000);
+          if (diff >= 0 && diff < 7) values[6 - diff] = Number(order.amount || 0) + values[6 - diff];
+        });
+
+        const max = Math.max(...values, 1);
+        salesChart.innerHTML = values.map((value, index) => {
+          const height = (value / max) * 100;
+          const label = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][index];
+          return `
+            <div class="bar" style="height:${Math.max(12, height)}%;">
+              <span class="bar-label">${label}</span>
+            </div>
+          `;
+        }).join('');
+      }
+
+      productForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const name = document.getElementById('productName').value.trim();
+        const price = Number(document.getElementById('productPrice').value);
+
+        if (!name || !price) {
+          showFormMessage('error', 'Product name and price are required.');
+          return;
+        }
+
+        const formData = new FormData();
+        const productId = document.getElementById('productId').value || '';
+        const file = document.getElementById('productImageFile').files[0];
+
+        formData.append('name', name);
+        formData.append('description', document.getElementById('productDescription').value);
+        formData.append('price', String(price));
+        formData.append('imageUrl', document.getElementById('productImageUrl').value || '');
+        if (file) formData.append('image', file);
+        if (productId) formData.append('id', productId);
+
+        const method = productId ? 'PUT' : 'POST';
+        const url = productId ? `/api/products/${productId}` : '/api/products';
+
+        try {
+          const response = await fetch(url, { method, body: formData });
+          const payload = await response.json().catch(() => ({}));
+
+          if (!response.ok) {
+            throw new Error(payload.error || 'Unable to save product.');
+          }
+
+          showFormMessage('success', productId ? 'Product updated successfully.' : 'Product uploaded successfully.');
+          productForm.reset();
+          document.getElementById('productId').value = '';
+          loadDashboard();
+        } catch (error) {
+          showFormMessage('error', error.message || 'Upload failed.');
+        }
+      });
+
+      document.getElementById('resetProductBtn').addEventListener('click', () => {
+        productForm.reset();
+        document.getElementById('productId').value = '';
+        showFormMessage('success', 'Form reset.');
+      });
+
+      loadDashboard();
+    </script>
+  </body>
+</html>

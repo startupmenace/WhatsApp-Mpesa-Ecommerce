@@ -1,0 +1,119 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Nike air max",
+      "price": 1,
+      "description": "Step up your everyday performance with Nike running shoes designed for comfort, support, and movement. Featuring a lightweight construction and cushioned sole, they’re ideal for running, workouts, walking, and everyday wear. The sleek Nike design adds a sporty finish that works both in and out of the gym.",
+      "imageUrl": "/uploads/1790498792124-bonsai-tree-and-moss-plant-in-ceramic-pots-on-wooden-table-photo.webp"
+    },
+    {
+      "id": 2,
+      "name": "Nike Limited Edition",
+      "price": 1,
+      "description": "Keep your look fresh with these stylish Nike sneakers made for everyday comfort. Whether you're heading out, meeting friends, running errands, or simply adding a sporty touch to your outfit, these shoes offer the perfect combination of casual style and all-day comfort.",
+      "imageUrl": "https://res.cloudinary.com/dma9d1qce/image/upload/v1790441267/2.png"
+    },
+    {
+      "id": 3,
+      "name": "Nike TRAVIS Scott Edition",
+      "price": 1,
+      "description": "Designed for those who want performance and style in one pair, these Nike sneakers combine a modern silhouette with dependable cushioning and support. Their versatile design makes them suitable for workouts, weekend outings, travel, and everyday use.",
+      "imageUrl": "https://res.cloudinary.com/dma9d1qce/image/upload/v1790441267/3.png"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1790498985541,
+      "productId": 1,
+      "productName": "Nike air max",
+      "amount": 1,
+      "customerPhone": "whatsapp:+254740408496",
+      "status": "paid",
+      "createdAt": 1790498985541
+    },
+    {
+      "id": 1790498449543,
+      "productId": 1,
+      "productName": "Nike air max",
+      "amount": 1,
+      "customerPhone": "whatsapp:+254740408496",
+      "status": "paid",
+      "createdAt": 1790498449543
+    },
+    {
+      "id": 1790442339927,
+      "productId": 1,
+      "productName": "Nike air max",
+      "amount": 1,
+      "customerPhone": "whatsapp:+254740408496",
+      "status": "paid",
+      "createdAt": 1790442339927
+    },
+    {
+      "id": 1790441762158,
+      "productId": 1,
+      "productName": "Nike air max",
+      "amount": 1,
+      "customerPhone": "whatsapp:+254740408496",
+      "status": "paid",
+      "createdAt": 1790441762158
+    },
+    {
+      "id": 1790441513195,
+      "productId": 1,
+      "productName": "Nike air max",
+      "amount": 1,
+      "customerPhone": "whatsapp:+254740408496",
+      "status": "paid",
+      "createdAt": 1790441513195
+    }
+  ],
+  "transactions": [
+    {
+      "mpesaReceiptNumber": "UIRO683UVL",
+      "resultDesc": "The service request is processed successfully.",
+      "amount": 1,
+      "customerPhone": "whatsapp:+254740408496",
+      "productId": 1,
+      "productName": "Nike air max",
+      "createdAt": 1790498985538
+    },
+    {
+      "mpesaReceiptNumber": "UIRO683QYI",
+      "resultDesc": "The service request is processed successfully.",
+      "amount": 1,
+      "customerPhone": "whatsapp:+254740408496",
+      "productId": 1,
+      "productName": "Nike air max",
+      "createdAt": 1790498449528
+    },
+    {
+      "mpesaReceiptNumber": "UIQO681W8B",
+      "resultDesc": "The service request is processed successfully.",
+      "amount": 1,
+      "customerPhone": "whatsapp:+254740408496",
+      "productId": 1,
+      "productName": "Nike air max",
+      "createdAt": 1790442339926
+    },
+    {
+      "mpesaReceiptNumber": "UIQO681TAQ",
+      "resultDesc": "The service request is processed successfully.",
+      "amount": 1,
+      "customerPhone": "whatsapp:+254740408496",
+      "productId": 1,
+      "productName": "Nike air max",
+      "createdAt": 1790441762157
+    },
+    {
+      "mpesaReceiptNumber": "UIQO681T5V",
+      "resultDesc": "The service request is processed successfully.",
+      "amount": 1,
+      "customerPhone": "whatsapp:+254740408496",
+      "productId": 1,
+      "productName": "Nike air max",
+      "createdAt": 1790441513194
+    }
+  ]
+}
